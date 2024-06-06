@@ -1,5 +1,8 @@
 <?php 
+
+
 require_once 'parts/header.php';
+
 ?>
 
     <form action="scripts/feedback-form-script.php" class="feedback-form" method="POST">
@@ -12,5 +15,9 @@ require_once 'parts/header.php';
 
 
 <?php
+if(isset($_SESSION['error'])) {
+    echo '<div class="error">'.$_SESSION['error'].'</div>';
+    unset($_SESSION['error']); 
+}
 require_once 'parts/footer.php';
 ?>

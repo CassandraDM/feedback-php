@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $note_feedback = $_POST['note'];
 $name_feedback = $_POST['name'];
@@ -7,23 +8,40 @@ $message_feedback = $_POST['message'];
 
 
 if(empty($note_feedback)) {
+    $_SESSION['error'] = "Note field is required.";
     header("Location: ../feedback-form.php");
-    die(); 
+    die();  
+}
+
+if($note_feedback < 0 || $note_feedback > 5) {
+    $_SESSION['error'] = "Note must be between 0 and 5.";
+    header("Location: ../feedback-form.php");
+    die();  
 }
 
 if(empty($name_feedback)) {
+    $_SESSION['error'] = "Name field is required.";
     header("Location: ../feedback-form.php");
-    die(); 
+    die();  
 }
 
 if(empty($email_feedback)) {
+    $_SESSION['error'] = "Email field is required.";
     header("Location: ../feedback-form.php");
     die(); 
 }
 
-if(empty($message_feedback)) {
+if (!filter_var($email_feedback, FILTER_VALIDATE_EMAIL)) {
+    $_SESSION['error']= "Invalid email format";
     header("Location: ../feedback-form.php");
-    die(); 
+    die();
+  }
+
+
+if(empty($message_feedback)) {
+    $_SESSION['error'] = "Message field is required.";
+    header("Location: ../feedback-form.php");
+    die();  
 }
 
 if(!empty($note_feedback) && !empty($name_feedback) && !empty($email_feedback) && !empty($message_feedback)){
