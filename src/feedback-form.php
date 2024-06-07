@@ -10,6 +10,7 @@ require_once 'parts/header.php';
         <input type="text" name="name" placeholder="Enter your name">
         <input type="text" name="email" placeholder="Enter your email address">
         <textarea name="message" id="" placeholder="Write your feedback"></textarea>
+        <input type="hidden" name="establishment_id" value="<?php echo $_GET['id']?>">
         <input type="submit" value="Submit">
     </form>
 

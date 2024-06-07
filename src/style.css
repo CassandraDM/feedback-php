@@ -7,21 +7,24 @@
   padding: 10px;
 }
 
-.feedback-form {
+.feedback-form,
+.establishment-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin: 20px;
 }
 
-.feedback-list {
+.feedback-list,
+.establishment-list {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin: 20px;
 }
 
-.feedback {
+.feedback,
+.establishment {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -32,7 +35,9 @@
 }
 
 .feedback-header,
-.feedback-content {
+.feedback-content,
+.establishment-header,
+.establishment-content {
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -1,10 +1,11 @@
 <?php
 session_start();
 
-$note_feedback = $_POST['note'];
+$note_feedback = intval($_POST['note']);
 $name_feedback = $_POST['name'];
 $email_feedback = $_POST['email'];
 $message_feedback = $_POST['message'];
+$establishment_id = intval($_POST['establishment_id']);
 
 
 if(empty($note_feedback)) {
@@ -46,16 +47,30 @@ if(empty($message_feedback)) {
 
 if(!empty($note_feedback) && !empty($name_feedback) && !empty($email_feedback) && !empty($message_feedback)){
     $connectDatabase = new PDO("mysql:host=db;dbname=feedback","root", "admin");
-    $request = $connectDatabase->prepare("INSERT INTO review (note, name, email, message) VALUES (:note, :name, :email, :message)");
+    $request = $connectDatabase->prepare("INSERT INTO review (note, name, email, message, establishment_id) VALUES (:note, :name, :email, :message, :establishment_id)");
     $request->bindParam(':note', $note_feedback);
     $request->bindParam(':name', $name_feedback);
     $request->bindParam(':email', $email_feedback);
     $request->bindParam(':message', $message_feedback);
+    $request->bindParam(':establishment_id', $establishment_id);
     $request->execute();
+
+    $request = $connectDatabase->prepare("SELECT ROUND(AVG(note),1) AS average_note FROM review WHERE establishment_id = :establishment_id");
+    $request->bindParam(':establishment_id', $establishment_id);
+    $request->execute();
+
+    $average = $request->fetch(PDO::FETCH_ASSOC);
+
+    $request = $connectDatabase->prepare("UPDATE establishment SET note = :note WHERE id = :establishment_id");
+    $request->bindParam(':note', $average['average_note']);
+    $request->bindParam(':establishment_id', $establishment_id);
+    $request->execute();
+
+
     
-    header('Location: ../index.php');
+    header("Location: ../establishment-single.php?id=$establishment_id");
 }
 
 
 
-?>
+?> 
